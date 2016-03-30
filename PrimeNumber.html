@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<body>
+
+<script>
+  primes=[2,3,5,7];
+  getNextPrime = function(idx) {
+    var newPrime = primes[primes.length-1];
+    while(primes.length <= idx) { 
+      newPrime +=2;
+      if (isPrime(newPrime))
+        primes.push(newPrime);
+    }
+
+    return primes[idx];
+  }
+  
+  var isPrime = function(nmb) {
+    if (nmb<2) {
+       return false;
+    }
+    var uplimit = Math.sqrt(nmb);
+    var idx = 0;
+    do {
+      var dvdn = getNextPrime(idx++);
+      if (dvdn>uplimit)
+        break;
+      
+      if (nmb % dvdn === 0)
+        return false;
+    }while(true);
+
+    return true;
+  }
+
+</script>
+
+<div ng-app="primeApp" ng-controller="primeCtrl" ng-init="">
+  <p>The number to check: <input type="text" ng-model="numberToCheck">
+  <button ng-click="checkNumber()">Is this a prime?</button>
+  {{checkResult}}</p>
+  <br>
+  <p>Prime Warehouse:<br>
+  {{primewarehouse}}
+</div>
+
+<script>
+var app = angular.module("primeApp", []); 
+app.controller("primeCtrl", function($scope) {
+   $scope.primewarehouse = primes;
+   $scope.checkNumber = function() {
+      $scope.checkResult=isPrime($scope.numberToCheck)?"Yes":"No";
+      $scope.primewarehouse=primes;
+   };
+});
+</script>
+
+</body>
+</html>
