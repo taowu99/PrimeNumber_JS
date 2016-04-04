@@ -4,35 +4,58 @@
 <body>
 
 <script>
-  primes=[2,3,5,7];
-  getNextPrime = function(idx) {
-    var newPrime = primes[primes.length-1];
-    while(primes.length <= idx) { 
-      newPrime +=2;
-      if (isPrime(newPrime))
-        primes.push(newPrime);
-    }
 
-    return primes[idx];
-  }
-  
-  var isPrime = function(nmb) {
-    if (nmb<2) {
-       return false;
-    }
-    var uplimit = Math.sqrt(nmb);
-    var idx = 0;
-    do {
-      var dvdn = getNextPrime(idx++);
-      if (dvdn>uplimit)
-        break;
-      
-      if (nmb % dvdn === 0)
-        return false;
-    }while(true);
+//this is the warhouse to store primes
+primes=[2,3,5,7];
+var getNextPrime = function(idx) {
+	var newPrime = primes[primes.length-1];
+	while(primes.length <= idx) { 
+	  newPrime +=2;
+	  //if (isPrime(newPrime))
+	  if (1 == findFactor(newPrime))
+	    primes.push(newPrime);
+	}
+	
+	return primes[idx];
+}
 
-    return true;
+//this is the version2, return 1 for prime, the first available divisor for nmb
+var findFactor = function(nmb) {
+  if (nmb<2) {
+     return false;
   }
+  var uplimit = Math.sqrt(nmb);
+  var idx = 0;
+  do {
+    var dvdn = getNextPrime(idx++);
+    if (dvdn>uplimit)
+      break;
+    
+    if (nmb % dvdn === 0)
+      return dvdn;
+  }while(true);
+
+  return 1;
+}
+
+//this is version 1, only return true/false for prime judege
+var isPrime = function(nmb) {
+  if (nmb<2) {
+     return false;
+  }
+  var uplimit = Math.sqrt(nmb);
+  var idx = 0;
+  do {
+    var dvdn = getNextPrime(idx++);
+    if (dvdn>uplimit)
+      break;
+    
+    if (nmb % dvdn === 0)
+      return false;
+  }while(true);
+
+  return true;
+}
 
 </script>
 
@@ -50,7 +73,10 @@ var app = angular.module("primeApp", []);
 app.controller("primeCtrl", function($scope) {
    $scope.primewarehouse = primes;
    $scope.checkNumber = function() {
-      $scope.checkResult=isPrime($scope.numberToCheck)?"Yes":"No";
+	  var nmb = $scope.numberToCheck;
+	  var dvdn = findFactor(nmb);
+      //$scope.checkResult=isPrime($scope.numberToCheck)?"Yes":"No";
+      $scope.checkResult=dvdn==1?"Yes":"No: "+dvdn+" x "+nmb/dvdn;
       $scope.primewarehouse=primes;
    };
 });
