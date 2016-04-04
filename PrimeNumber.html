@@ -74,10 +74,15 @@ app.controller("primeCtrl", function($scope) {
    $scope.primewarehouse = primes;
    $scope.checkNumber = function() {
 	  var nmb = $scope.numberToCheck;
-	  var dvdn = findFactor(nmb);
-      //$scope.checkResult=isPrime($scope.numberToCheck)?"Yes":"No";
-      $scope.checkResult=dvdn==1?"Yes":"No: "+dvdn+" x "+nmb/dvdn;
-      $scope.primewarehouse=primes;
+	  if (!isNaN(nmb)) {
+		  var dvdn = findFactor(nmb);
+	      //$scope.checkResult=isPrime($scope.numberToCheck)?"Yes":"No";
+	      $scope.checkResult=dvdn==1?"Yes":"No: "+dvdn+" x "+nmb/dvdn;
+	      $scope.primewarehouse=primes;
+	  }
+	  else {
+		  $scope.checkResult="NaN";
+	  }
    };
 });
 </script>
