@@ -64,7 +64,12 @@ var isPrime = function(nmb) {
   <button ng-click="checkNumber()">Is this a prime?</button>
   {{checkResult}}</p>
   <br>
-  <p>Prime Warehouse:<br>
+  <p>Prime Warehouse has {{primewarehouse.length}} primes:<br>
+  <ul>
+    <li ng-repeat="x in primewarehouse">
+      {{ x }}
+    </li>
+  </ul>
   {{primewarehouse}}
 </div>
 
